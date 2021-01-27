@@ -83,7 +83,7 @@ Template.afPassword2.onCreated(function () {
   // value to be returned to form
 
   const value = data.value
-  const dataSchemaKey = atts[ 'data-schema-key' ]
+  const dataSchemaKey = atts['data-schema-key']
   instance.state.set({ value, dataSchemaKey })
 
   // feature configuration
@@ -96,14 +96,28 @@ Template.afPassword2.onCreated(function () {
 
   instance.autorun(() => {
     const runtimeData = Template.currentData()
-    const runtimeAtts = runtimeData.atts
+    const { css, rules, userIcon, visibilityButton, visible, ...runtimeAtts } = runtimeData.atts
+
     const invalid = runtimeAtts.class && runtimeAtts.class.indexOf('invalid') > -1
     const max = runtimeAtts.max || defaults.max
-    const css = runtimeAtts.css || defaults.css
-    const visible = runtimeAtts.visible || defaults.visible
-    const rules = runtimeAtts.rules || defaults.rules
-    const ruleStates = RuleStates.check(value, rules, invalid)
-    instance.state.set({ max, css, visible, invalid, ruleStates })
+    const ruleStates = RuleStates.check(value, (rules || defaults.rules), invalid)
+    const invalidClass = invalid ? 'is-invalid' : ''
+
+    const atts = Object.assign(runtimeAtts, {
+      maxlength: max,
+      class: `form-control afPassword2-input ${invalidClass} ${css || defaults.css}`
+    })
+
+    instance.state.set({
+      max,
+      css,
+      visible: visible || defaults.visible,
+      invalid,
+      ruleStates,
+      atts,
+      userIcon: typeof userIcon !== 'undefined' ? userIcon : defaults.userIcon,
+      visibilityButton: typeof visibilityButton !== 'undefined' ? visibilityButton : defaults.visibilityButton,
+    })
   })
 })
 
@@ -115,15 +129,12 @@ Template.afPassword2.onRendered(function () {
 Template.afPassword2.helpers({
   inputAtts () {
     const instance = Template.instance()
-    const max = instance.state.get('max')
-    const css = instance.state.get('css')
-    const visible = instance.state.get('visible')
-    const invalidClass = instance.state.get('invalid') ? 'is-invalid' : ''
-    return {
-      maxlength: max,
-      type: visible ? 'text' : 'password',
-      class: `form-control afPassword2-input ${invalidClass} ${css}`
-    }
+    const atts = instance.state.get('atts')
+    atts.type = instance.state.get('visible')
+      ? 'text'
+      : 'password'
+
+    return atts
   },
   dataSchemaKey () {
     return Template.instance().state.get('dataSchemaKey')
@@ -148,7 +159,7 @@ Template.afPassword2.helpers({
   },
   ruleStatus (index) {
     const ruleStates = Template.instance().state.get('ruleStates')
-    return ruleStates[ index ]
+    return ruleStates[index]
   }
 })
 
