@@ -9,6 +9,27 @@ Standard HTML5 Password input with some extended features:
 - Bootstrap 4 compatible (requires `communitypackages:autoform-bootstrap4`) but
   not restricted (and not depending) to it
 
+## Import this package
+
+This package now splits between dynamic and static imports.
+If you need static imports, please use the following:
+
+```javascript
+import { AutoFormPassword2 } from  'meteor/jkuester:autoform-password2'
+
+AutoFormPassword2.load()
+```
+
+If you need this via  dynamic import please import as the following:
+
+```javascript
+import { AutoFormPassword2 } from 'meteor/jkuester:autoform-password2/dynamic'
+
+AutoFormPassword2.load()
+  .catch(e => { ... })
+  .then(() => { ... })
+```
+
 ## Usage
 
 Define the following schema to enable all options:

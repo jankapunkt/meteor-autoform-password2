@@ -1,7 +1,12 @@
+/* global AutoForm */
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
 
 import './autoform-password2.html'
+
+(function () {
+  console.info('setup autoform-password 2')
+})()
 
 /**
  * Register as AutoForm extension
@@ -116,7 +121,7 @@ Template.afPassword2.onCreated(function () {
       ruleStates,
       atts,
       userIcon: typeof userIcon !== 'undefined' ? userIcon : defaults.userIcon,
-      visibilityButton: typeof visibilityButton !== 'undefined' ? visibilityButton : defaults.visibilityButton,
+      visibilityButton: typeof visibilityButton !== 'undefined' ? visibilityButton : defaults.visibilityButton
     })
   })
 })
