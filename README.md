@@ -2,11 +2,12 @@
 
 Standard HTML5 Password input with some extended features:
 
-* toggle input visibility
-* specifiy regex based rues to be fulfilled
-* display rules to users a fulfilled or pending
-* display a fontawesome (4 or 5) icon
-* Bootstrap 4 compatible (requires `imajus:autoform-bootstrap4`)
+- toggle input visibility
+- specifiy regex based rues to be fulfilled
+- display rules to users and if they have been fulfilled or are pending
+- display a fontawesome (4 or 5) icon
+- Bootstrap 4 compatible (requires `communitypackages:autoform-bootstrap4`) but
+  not restricted (and not depending) to it
 
 ## Usage
 
