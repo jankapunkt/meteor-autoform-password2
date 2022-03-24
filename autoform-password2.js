@@ -1,12 +1,8 @@
 /* global AutoForm */
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
-
 import './autoform-password2.html'
 
-(function () {
-  console.info('setup autoform-password 2')
-})()
 
 /**
  * Register as AutoForm extension
@@ -57,18 +53,16 @@ const RuleStates = {
     color: 'success'
   },
   check (value, rules, invalid) {
+    console.debug('rule check')
     const self = this
+
     if (!value && !invalid) {
       return rules.map(() => self.neutral)
     }
 
     return rules.map(rule => {
-      if (rule.test(value)) {
-        return self.passed
-      }
-      if (invalid) {
-        return self.failed
-      }
+      if (rule.test(value)) { return self.passed }
+      if (invalid) { return self.failed }
       return self.neutral
     })
   }
@@ -100,12 +94,14 @@ Template.afPassword2.onCreated(function () {
   // input atts, changeable at runtime
 
   instance.autorun(() => {
+    instance.state.set('checkingRules', true)
     const runtimeData = Template.currentData()
     const { css, rules, userIcon, visibilityButton, visible, ...runtimeAtts } = runtimeData.atts
 
     const invalid = runtimeAtts.class && runtimeAtts.class.indexOf('invalid') > -1
     const max = runtimeAtts.max || defaults.max
-    const ruleStates = RuleStates.check(value, (rules || defaults.rules), invalid)
+    const runtimeValue = instance.state.get('value')
+    const ruleStates = RuleStates.check(runtimeValue, (rules || defaults.rules), invalid)
     const invalidClass = invalid ? 'is-invalid' : ''
 
     const atts = Object.assign(runtimeAtts, {
@@ -123,6 +119,8 @@ Template.afPassword2.onCreated(function () {
       userIcon: typeof userIcon !== 'undefined' ? userIcon : defaults.userIcon,
       visibilityButton: typeof visibilityButton !== 'undefined' ? visibilityButton : defaults.visibilityButton
     })
+
+    setTimeout(() => instance.state.set('checkingRules', false), 50)
   })
 })
 
@@ -165,6 +163,9 @@ Template.afPassword2.helpers({
   ruleStatus (index) {
     const ruleStates = Template.instance().state.get('ruleStates')
     return ruleStates[index]
+  },
+  checkingRules () {
+    return Template.instance().state.get('checkingRules')
   }
 })
 
@@ -177,10 +178,10 @@ Template.afPassword2.events({
   'input .afPassword2-input' (event, templateInstance) {
     event.preventDefault()
     const value = templateInstance.$(event.currentTarget).val()
-    const invalid = templateInstance.state.get('invalid')
-    const rules = templateInstance.data.atts.rules || defaults.rules
-    const ruleStates = RuleStates.check(value, rules, invalid)
+    // const invalid = templateInstance.state.get('invalid')
+    // const rules = templateInstance.data.atts.rules || defaults.rules
+    // const ruleStates = RuleStates.check(value, rules, invalid)
 
-    templateInstance.state.set({ ruleStates, value })
+    templateInstance.state.set({ value })
   }
 })
