@@ -52,6 +52,21 @@ Define the following schema to enable all options:
 }
 ``` 
 
+Rules is a list of Objects with the following properties:
+
+```javascript
+{
+  test: value => Boolean,
+  message: value => String
+}
+```
+
+Each rule will be checked on input of a character against the `test` method and
+the message will be displayed below the input.
+
+If a rule passes, it will be marked as green / successfull, if it failed it
+will be marked as red / failed, otherwise it will be neutral.
+
 ## License
 
 MIT, see [license file](LICENSE.md)
