@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import './autoform-password2.html'
 
-
 /**
  * Register as AutoForm extension
  */
