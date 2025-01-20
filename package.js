@@ -1,7 +1,7 @@
 /* eslint-env meteor */
 Package.describe({
   name: 'jkuester:autoform-password2',
-  version: '3.0.0-rc.0',
+  version: '3.0.0',
   // Brief, one-line summary of the package.
   summary: 'Autoform password input using Bootstrap 4 and with extra functionality.',
   // URL to the Git repository containing the source code for this package.
@@ -17,7 +17,7 @@ Package.onUse(function (api) {
     'ecmascript',
     'reactive-dict',
     'templating@1.4.4',
-    'aldeed:autoform@8.0.0-rc.3'
+    'aldeed:autoform@8.0.0'
   ])
 
   api.mainModule('static.js', 'client')
