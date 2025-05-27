@@ -17,19 +17,8 @@ Package.onUse(function (api) {
     'ecmascript',
     'reactive-dict',
     'templating@1.4.4',
-    'aldeed:autoform@8.0.0'
+    'aldeed:autoform@7.0.0 || 8.0.0'
   ])
 
   api.mainModule('static.js', 'client')
-})
-
-Package.onTest(function (api) {
-  api.versionsFrom(['3.0.1'])
-  api.use('ecmascript')
-  api.use('templating')
-  api.use('blaze')
-  api.use('meteortesting:mocha')
-  api.use('practicalmeteor:chai')
-  api.use('jkuester:autoform-password2')
-  api.mainModule('autoform-password2-tests.js')
 })
